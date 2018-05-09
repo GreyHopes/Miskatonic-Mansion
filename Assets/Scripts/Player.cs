@@ -1,27 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Player : MovingObject {
-   
 
+    public Tilemap doorsTilemap;
     // Use this for initialization
     protected override void Start ()
     {
         base.Start();
 	}
-
-    protected override void Move(int xDir, int yDir)
-    {
-        print(transform.position);
-        Vector2 start = transform.position;
-        Vector2 end = start + new Vector2(xDir, yDir);
-
-
-
-        if (!getCell(wallTilemap, end))
-            rb2D.MovePosition(end);
-    }
 
     // Update is called once per frame
     void Update()
@@ -44,6 +33,30 @@ public class Player : MovingObject {
         }
     }
 
+    protected override void Move(int xDir, int yDir)
+    {
+        print(transform.position);
+        Vector2 start = transform.position;
+        Vector2 end = start + new Vector2(xDir, yDir);
 
+        if (getCell(doorsTilemap, end))
+            print("Change de pièce");
+            //SwitchRoom(end);
+
+        if (!getCell(wallTilemap, end))
+            rb2D.MovePosition(end);
+    }
+
+    public bool test = true;
+    protected void SwitchRoom(Vector3 doorUsed)
+    {
+        if (test)
+        {
+          
+         
+            test = false;
+        }
+       
+    }
 
 }
