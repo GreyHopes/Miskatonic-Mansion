@@ -40,9 +40,11 @@ public class Player : MovingObject {
         Vector2 end = start + new Vector2(xDir, yDir);
 
         if (getCell(doorsTilemap, end))
+        {
             print("Change de pièce");
-            //SwitchRoom(end);
-
+            SwitchRoom(end);
+        }
+           
         if (!getCell(wallTilemap, end))
             rb2D.MovePosition(end);
     }
@@ -50,13 +52,9 @@ public class Player : MovingObject {
     public bool test = true;
     protected void SwitchRoom(Vector3 doorUsed)
     {
-        if (test)
-        {
-          
-         
-            test = false;
-        }
-       
+        CameraController.instance.MoveUp(11);
+        Vector3 end = new Vector3(transform.position.x, transform.position.y + 4);
+        rb2D.MovePosition(end);
     }
 
 }
