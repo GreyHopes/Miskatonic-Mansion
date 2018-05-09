@@ -24,12 +24,23 @@ public class CameraController : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
 	}
 
-    public void MoveUp(int nb)
+    public Vector3 GetCameraPosition()
+    {
+        return transform.position;
+    }
+
+    public void MoveVertically(int nb)
     {
         transform.position = new Vector3(transform.position.x,transform.position.y + nb,-10);
+    }
+
+    public void MoveHorizontally(int nb)
+    {
+        transform.position = new Vector3(transform.position.x + nb, transform.position.y, -10);
     }
 }

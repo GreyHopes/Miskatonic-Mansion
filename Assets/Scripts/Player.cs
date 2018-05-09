@@ -35,13 +35,11 @@ public class Player : MovingObject {
 
     protected override void Move(int xDir, int yDir)
     {
-        print(transform.position);
         Vector2 start = transform.position;
         Vector2 end = start + new Vector2(xDir, yDir);
 
         if (getCell(doorsTilemap, end))
         {
-            print("Change de pièce");
             SwitchRoom(end);
         }
            
@@ -52,9 +50,18 @@ public class Player : MovingObject {
     public bool test = true;
     protected void SwitchRoom(Vector3 doorUsed)
     {
-        CameraController.instance.MoveUp(11);
-        Vector3 end = new Vector3(transform.position.x, transform.position.y + 4);
-        rb2D.MovePosition(end);
+        Vector3 camPos = CameraController.instance.GetCameraPosition();
+
+        //We'll look at the position of the door used relative to the camera center to determine in which way we will move the camera
+        if (Mathf.Abs(doorUsed.x - camPos.x) < Mathf.Abs(doorUsed.y - camPos.y)) 
+        {
+            //If the y component is greater in absolute value it means that we have to move vertically
+            //We'll use the sign of door.y - camPos.y to determine if we have to go up or down
+
+            CameraController.instance.MoveVertically(11 * (int)Mathf.Sign(doorUsed.y - camPos.y));
+            Vector3 end = new Vector3(transform.position.x, transform.position.y + ( 4 * (int)Mathf.Sign(doorUsed.y - camPos.y)));
+            rb2D.MovePosition(end);
+        }
     }
 
 }
