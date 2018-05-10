@@ -104,7 +104,9 @@ MonoBehaviour:
     m_Bits: 256
   wallTilemap: {fileID: 0}
   doorsTilemap: {fileID: 0}
-  test: 1
+  blockingLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!212 &212729335812606376
 SpriteRenderer:
   m_ObjectHideFlags: 1
