@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public abstract class MovingObject : MonoBehaviour {
 
-    private BoxCollider2D boxCollider;
+    protected BoxCollider2D boxCollider;
     protected Rigidbody2D rb2D;
     public LayerMask layer;
     public Tilemap wallTilemap;

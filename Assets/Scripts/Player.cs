@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class Player : MovingObject {
 
     public Tilemap doorsTilemap;
+    public LayerMask blockingLayer;
     // Use this for initialization
     protected override void Start ()
     {
@@ -38,16 +39,25 @@ public class Player : MovingObject {
         Vector2 start = transform.position;
         Vector2 end = start + new Vector2(xDir, yDir);
 
-        if (getCell(doorsTilemap, end))
+        boxCollider.enabled = false;
+        RaycastHit2D hit = Physics2D.Linecast(start, end, blockingLayer);
+        boxCollider.enabled = true;
+
+        if (hit.transform == null)
         {
-            SwitchRoom(end);
+            if (getCell(doorsTilemap, end))
+                SwitchRoom(end);
+
+            if (!getCell(wallTilemap, end))
+                rb2D.MovePosition(end);
+        }
+        else
+        {
+            ColisionHandling(hit);
         }
            
-        if (!getCell(wallTilemap, end))
-            rb2D.MovePosition(end);
-    }
 
-    public bool test = true;
+    }
     protected void SwitchRoom(Vector3 doorUsed)
     {
         Vector3 camPos = CameraController.instance.GetCameraPosition();
@@ -70,6 +80,18 @@ public class Player : MovingObject {
             rb2D.MovePosition(end);
 
         }
+    }
+
+    public void ColisionHandling(RaycastHit2D hit)
+    {
+        if (hit.transform.tag == "Lever")
+        {
+            print("Levier chef !");
+            Lever lever = hit.transform.GetComponent<Lever>();
+            lever.state = !lever.state;
+        }
+            
+            
     }
 
 }
