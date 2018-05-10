@@ -62,6 +62,14 @@ public class Player : MovingObject {
             Vector3 end = new Vector3(transform.position.x, transform.position.y + ( 4 * (int)Mathf.Sign(doorUsed.y - camPos.y)));
             rb2D.MovePosition(end);
         }
+        else
+        {
+            //If the x component is greater it means that we have to move horizontally
+            CameraController.instance.MoveHorizontally(15 * (int)Mathf.Sign(doorUsed.x - camPos.x));
+            Vector3 end = new Vector3(transform.position.x + (8 * (int)Mathf.Sign(doorUsed.x - camPos.x)), transform.position.y);
+            rb2D.MovePosition(end);
+
+        }
     }
 
 }
