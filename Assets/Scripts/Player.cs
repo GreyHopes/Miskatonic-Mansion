@@ -7,9 +7,11 @@ public class Player : MovingObject {
 
     public Tilemap doorsTilemap;
     public LayerMask blockingLayer;
+    public List<Key> keyChain;
     // Use this for initialization
     protected override void Start ()
     {
+        keyChain.Clear();
         base.Start();
 	}
 
@@ -53,7 +55,7 @@ public class Player : MovingObject {
         }
         else
         {
-            ColisionHandling(hit);
+            ColisionHandling(hit,end);
         }
            
 
@@ -82,7 +84,7 @@ public class Player : MovingObject {
         }
     }
 
-    public void ColisionHandling(RaycastHit2D hit)
+    public void ColisionHandling(RaycastHit2D hit,Vector3 end)
     {
         if (hit.transform.tag == "Lever")
         {
@@ -93,6 +95,18 @@ public class Player : MovingObject {
         {
             DialogueTrigger dialogueTrigger = hit.transform.GetComponent<DialogueTrigger>();
             dialogueTrigger.TriggerDialogue();
+        }
+        if(hit.transform.tag == "Key")
+        {
+            Key pickedUpKey = hit.transform.GetComponent<Key>();
+            pickedUpKey.OnPickUp();
+            keyChain.Add(pickedUpKey);
+            rb2D.MovePosition(end);
+        }
+        if(hit.transform.tag == "LockedDoor")
+        {
+            InvisibleDoor_Key door_Key = hit.transform.GetComponent<InvisibleDoor_Key>();
+            door_Key.tryToOpen(keyChain);
         }
     }
 }

@@ -12,7 +12,7 @@ public class DialogueManager : MonoBehaviour {
 
     public Text nameText;
     public Text dialogueText;
-
+    private bool dialogueInProcess;
 	// Use this for initialization
 	void Start ()
     {
@@ -30,11 +30,28 @@ public class DialogueManager : MonoBehaviour {
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
+        dialogueInProcess = false;
         setences = new Queue<string>();
 	}
 
+    void Update()
+    {
+        if(dialogueInProcess)
+        {
+            if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.E))
+            {
+                DisplayNextSetence();
+            }
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                EndDialogue();
+            }
+        }
+    }
+
     public void startDialogue(Dialogue dialogue)
     {
+        dialogueInProcess = true;
         animator.SetBool("IsOpen", true);
         nameText.text = dialogue.name;
 
@@ -62,6 +79,8 @@ public class DialogueManager : MonoBehaviour {
 
     void EndDialogue()
     {
+        dialogueInProcess = false;
+        setences.Clear();
         animator.SetBool("IsOpen", false);
         Debug.Log("End of conversation");
     }
