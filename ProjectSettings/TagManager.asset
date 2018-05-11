@@ -9,6 +9,8 @@ TagManager:
   - Lever
   - Dialogue Trigger
   - Object
+  - LockedDoor
+  - Key
   layers:
   - Default
   - TransparentFX
