@@ -86,12 +86,13 @@ public class Player : MovingObject {
     {
         if (hit.transform.tag == "Lever")
         {
-            print("Levier chef !");
             Lever lever = hit.transform.GetComponent<Lever>();
             lever.state = !lever.state;
         }
-            
-            
+        if(hit.transform.tag == "Dialogue Trigger")
+        {
+            DialogueTrigger dialogueTrigger = hit.transform.GetComponent<DialogueTrigger>();
+            dialogueTrigger.TriggerDialogue();
+        }
     }
-
 }
